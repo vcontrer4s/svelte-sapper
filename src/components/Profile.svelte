@@ -31,7 +31,7 @@
 <div class="Profile">
   <div class="Profile-content">
     <div class="Profile-avatar">
-      <img src="https//arepa.s3.amazonaws.com/oscar.jpg" alt="" />
+      <img src="./logo-192.png" alt="Foto de perfil" />
     </div>
     <div class="Profile-info">
       <h2>{nickname}</h2>

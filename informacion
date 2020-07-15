@@ -1,0 +1,183 @@
+para iniciar un proyecto
+	creamos la carpeta
+		mkdir proyecto
+	iniciamos git
+		git init
+	iniciamos el proyecto
+		npm init
+	abrimos code con esa carpeta
+		code .
+	creamos la carpeta que ira a produccion
+		public
+	creamos la carpeta que tendra los archivos fuente
+		src
+	creamos el archivo principal
+		index.js
+	instalamos svelte
+		npm i svelte --save
+	en el proyecto de pugstagram usaremos babel para que la app sea compatible con todos los navegadores
+		npm i @babel/core @babel/preset-env @babel/polyfill babel-loader svelte-loader --save-dev
+	
+	instalamos webpack 
+		npm i webpack webpack-cli html-webpack-plugin --save-dev
+
+	--save => es para instalar como dependencia de desarrollo
+
+
+	creamos el archivo de configuracion de webpack, contendrá la ruta donde están los archivos a compilar, las extensiones, los nombres que dará una vez compilado, loader de svelte, loader de babel, que excluya la carpeta de node ya que no queremos compilarla...
+		webpack.config.js
+
+	creamos el html que contendrá la app
+		public/index.html
+
+	crear el archivo con lo mas sencillo para probar, solo un div
+		containers/App.svelte
+	
+	crear el archivo que leerá la App.svelte y la empujara en el html
+		index.js
+	
+	instalamos el entorno de desarrollo local de webpack
+		npm i webpack-dev-server --save-dev
+	
+	modificamos el package.json para crear dos scripts
+		1 para compilarlo y mandar el proy a producción
+			"build": "webpack --mode production",
+    
+		2 para ejecutar el entorno de desarrollo local
+			"start": "webpack-dev-server --open --mode development"
+
+probamos...
+npm run build
+	crearía una carpeta dist
+		bundle.js
+		index.html
+
+npm run start
+	debería verse en el browser la app puerto 8080 por default
+
+todo listo para iniciar cualquier proyecto
+
+
+index.html
+	app
+		header
+			****store conteo de likes
+		main
+			timeline
+				card
+					***store conteo de likes
+					modal
+					share
+					comments
+					
+			slidebar
+				profile
+					datos del perfil
+				stories
+					interacciones del perfil
+				footer
+					derechos reservados
+
+Sapper es un Framework
+Permite:
+
+    Crear Aplicaciones Web de alto rendimiento.
+    Trabaja de la mano con Svelte
+
+Sapper - Caracteristicas principales:
+
+    Añade a svelte manejo de rutas
+    Trabajar con SSR y capa de SEO
+    Incorpora Service Worker para PWA
+    Exportar sitio a estaticos
+    Compilar y enviar a produccion
+
+instalar sapper
+	polka	version minima de express
+	compression 	comprime
+	sirv	para publicar los estaticos
+
+se agrega a los scripts
+	"dev":"sapper dev",
+    "build": "sapper build",
+    "export": "sapper export",
+    "start": "node __sapper__/build"
+
+Arbol que espera encontrar Sapper:
+
+├ package.json
+├ src
+│ ├ routes
+│ │ ├ # your routes here
+│ │ ├ _error.svelte
+│ │ └ index.svelte
+│ ├ client.js
+│ ├ server.js
+│ ├ service-worker.js
+│ └ template.html
+├ static
+│ ├ # your files here
+└ rollup.config.js / webpack.config.js
+
+se agrega la variable de entorno que esta en el archivo .env
+crear y llenar los archivos server.js client.js webpack.conf.js
+
+La propiedad segment permite saber en que ruta estamos, funciona para mostrar o no una pagina si esta en determinada ruta.
+
+El archivo "_error"
+Contiene los elementos a mostrar cuando suceda un error por seguridad, el único que se muestra a un usuario es el 404. Una buena forma de mostrarlo es con estilos, imagenes, y con una explicación amable. Además incrementará el SEO.
+
+prefetch
+	agiliza la carga de rutas 
+	Sapper separa a los elementos en partes
+	cuando el puntero se acerca al llamado de uno de estos elementos
+	lo precarga, asi cuando damos click ya hay parte del codigo descargado
+	de esa manera es mas rapida la respuesta, casi instantanea
+	
+	rel="prefetch" -> Header
+
+podemos comprobarlo en inspector > network 
+	Veremos actividad al acercar el puntero al boton de configuración del perfil
+
+goto funciona como un enlace, la diferencia es que 
+
+lo importamos
+creamos la funcion asincrona
+instanciamos la funcion dentro del evento click
+tambien puede funcionar para actualizar base de datos, almacenar, etc
+
+Server Side Render renderizado del lado del servidor
+en el archivo index.svelte 
+	creamos un script como modulo
+	creamos la funcion que llamara a la api
+	y pintará los elementos 
+
+Crear service worker
+	que nos ayuda a:
+	convertir nuestra aplicacion en PWA 
+	gestionar notificaciones push
+	instalar actualizaciones sin molestar al usuario
+	administrar el cache
+
+https://developers.google.com/web/fundamentals/primers/service-workers?hl=es
+
+creamos el archivo que tendrá la configuración del SW
+lo conectamos con webpack
+lo podemos encontrar en el inspector
+	aplicacion > SW
+
+configurar el SW
+	crear archivo manifest.json
+	agregar al template la etiqueta link con el manifest y el favicon con las imagenes correspondientes en la carpeta static
+	
+despliegue/deploy usando sapper export
+
+exportar la aplicacion a una carpeta __sapper__
+que contendrá los archivos estaticos y minificados 
+de esta manera la carga será mucho mas rápida
+	npm run export
+	una vez listo 
+	npx serve __sapper__/export
+		nos mostrará la app desde los archivos de la carpeta __sapper__
+
+enviar el código a git 
